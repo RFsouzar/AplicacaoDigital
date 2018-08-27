@@ -60,9 +60,11 @@
 
   <div class="form-group">
       <label for="inputCPF">CPF</label>
+      <span class='msg-erro msg-nome' id="invalidcpf"></span>
       <input type="cpf" class="form-control" id="inputCPF" 
       v-on:input="Payment.destCpf = $event.target.value" placeholder="000.000.000-00" maxlengh="11" :value="Payment.destCpf" required
       v-mask="['###.###.###-##']"/>
+      
       
   </div>
 
@@ -73,7 +75,7 @@
   </div>
 
       <div class="container" id="btnpagar">
-        <button class="btn btn-primary" type="submit">Pagar</button>
+        <button class="btn btn-primary" type="submit" v-on:click="validarCPF(Payment.destCpf)">Pagar</button>
       </div>
       
       </form>
@@ -125,6 +127,7 @@ export default {
       mensagem: "",
       token:"",
       msg:"",
+      invalidcpf:"",
       people: [
         {  
           name: 'Shawna Dubbin',
@@ -161,6 +164,61 @@ export default {
   },
 
   methods: {
+
+    validarCPF(destCpf) {
+      var cpf= destCpf;	
+      cpf = cpf.replace(/[^\d]+/g,'');	
+      
+      if(cpf == '') return false;	
+      // Elimina CPFs invalidos conhecidos	
+      if (cpf.length != 11 || 
+        cpf == "00000000000" || 
+        cpf == "11111111111" || 
+        cpf == "22222222222" || 
+        cpf == "33333333333" || 
+        cpf == "44444444444" || 
+        cpf == "55555555555" || 
+        cpf == "66666666666" || 
+        cpf == "77777777777" || 
+        cpf == "88888888888" || 
+        cpf == "99999999999"){
+
+        
+         alert("CPF inválido");
+         event.preventDefault();
+          return false;	
+        }
+
+      // Valida 1o digito	
+       var add = 0;	
+      for (var i=0; i < 9; i ++)		
+        add += parseInt(cpf.charAt(i)) * (10 - i);	
+
+        var rev = 11 - (add % 11);	
+        if (rev == 10 || rev == 11)		
+          rev = 0;	
+        if (rev != parseInt(cpf.charAt(9)))	{
+             alert("CPF inválido");
+            event.preventDefault();
+          return false;	
+        }
+        		
+      // Valida 2o digito	
+       add = 0;	
+      for (var i = 0; i < 10; i ++)		
+        add += parseInt(cpf.charAt(i)) * (11 - i);	
+      rev = 11 - (add % 11);	
+      if (rev == 10 || rev == 11)	
+        rev = 0;	
+      if (rev != parseInt(cpf.charAt(10))){
+         alert("CPF inválido");
+        event.preventDefault();
+        return false;	
+      }
+        console.log("CPF Válido");
+        return true; 
+},
+
 
     getClass: ({ id }) => ({
         'md-primary': id === 2,
@@ -243,7 +301,6 @@ export default {
         value: ""
       };
     }
-
     /*post:function(){
         this.$http.post('http://tbnd29543:8080/partner/payment',{
           srcName:this.Payment.srcName,

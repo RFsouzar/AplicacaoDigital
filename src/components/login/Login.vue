@@ -1,14 +1,25 @@
 <template>
 <div>
 
-<meu-painel :titulo="titulo">
+      <div class="page-container">
+        <md-app md-mode="reveal">
+          <md-app-toolbar class="md-primary" id="teste">
+            <md-button class="md-icon-button">
+              <md-icon>menu</md-icon>
+            </md-button>
+            <span class="md-title">{{titulo}}</span>
+          </md-app-toolbar>
+        </md-app>
+      </div>
+
     <h5>Acesse sua conta</h5>
     <div class="container-fluid" id="login">
         
       <form @submit.prevent="login()">
         <div class="form-group">
             <label for="username1">CPF</label>
-            <input type="text" class="form-control" id="username1" v-model="input.username" name="username" placeholder="Entre com o CPF">    
+            <input type="text" class="form-control" id="username1" v-model="input.username" name="username" 
+            placeholder="Entre com o CPF" v-mask="['###.###.###-##']" />    
         </div>
 
         <div class="form-group">
@@ -21,11 +32,7 @@
         </div>
       </form>
 
-    </div>
-     
-    </meu-painel>
-
-            
+    </div>  
 
   </div>
     
@@ -43,7 +50,7 @@ export default {
   data () {
     return {
       titulo: 'App da IF',
-      menuVisible: false,
+      
 
         input:{
           username:"",
