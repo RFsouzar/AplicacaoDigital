@@ -7,5 +7,5 @@ export const routes = [
     /* rotas aqui */
     { path: '/', component: Login },
     { path: '/Home',component: Home },
-    { path: '/Pagamento', component: Pagamento},
+    { path: '/Transferencias', component: Pagamento},
   ];

@@ -17,7 +17,7 @@
         <md-list>
           <md-list-item>
             <md-icon>credit_card</md-icon>
-            <router-link to="/Pagamento">
+            <router-link to="/Transferencias">
             <span class="md-list-item-text" id="saque">Saque Digital</span>
             </router-link> 
           </md-list-item>
